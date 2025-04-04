@@ -1,7 +1,7 @@
 import streamlit as st
 import openai
 
-st.title(""📘 AI Math 2b Tutor 🇸🇪"")
+st.title("📘 AI Math 2b Tutor 🇸🇪")
 
 # Set your API key
 openai.api_key = st.secrets["OPENAI_API_KEY"]
