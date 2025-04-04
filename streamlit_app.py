@@ -1,25 +1,25 @@
 import streamlit as st
-import streamlit as st
 import openai
 
+st.title(""📘 AI Math 2b Tutor 🇸🇪"")
+
+# Set your API key
 openai.api_key = st.secrets["OPENAI_API_KEY"]
 
-st.title("📘 AI Math 2b Tutor 🇸🇪")
-user_question = st.text_input("What's your math question?")
+# Get user input
+question = st.text_input("Ask a math question:")
 
-if user_question:
-    prompt = f"""
-    You are a helpful AI tutor for Swedish high school students studying Math 2b.
-    Help the student solve this problem with Socratic questioning.
-    Guide them step by step, without giving the final answer immediately.
-
-    Problem: {user_question}
-    """
-
-    response = openai.ChatCompletion.create(
-        model="gpt-4",
-        messages=[{"role": "user", "content": prompt}],
-        temperature=0.7
-    )
-
-    st.write(response['choices'][0]['message']['content'])
+if question:
+    try:
+        with st.spinner("Thinking..."):
+            response = openai.ChatCompletion.create(
+                model="gpt-3.5-turbo",
+                messages=[
+                    {"role": "system", "content": "You're a helpful math tutor."},
+                    {"role": "user", "content": question}
+                ]
+            )
+            answer = response["choices"][0]["message"]["content"]
+            st.success(answer)
+    except Exception as e:
+        st.error(f"Something went wrong: {e}")
