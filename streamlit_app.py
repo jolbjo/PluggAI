@@ -23,3 +23,9 @@ if question:
             st.success(answer)
     except Exception as e:
         st.error(f"Something went wrong: {e}")
+
+def socratic_response(question):
+    if "9/3" in question:
+        return "Let's think step-by-step: If you divide 9 into 3 equal parts, how many do you have in each?"
+    else:
+        return openai_response(question)
