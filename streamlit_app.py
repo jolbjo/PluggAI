@@ -4,7 +4,7 @@ import openai
 st.title("📘 AI Math 2b Tutor 🇸🇪")
 
 # Set your API key
-openai.api_key = st.secrets["OPENAI_API_KEY"]
+openai.api_key = st.secrets["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"]
 
 def ask_openai(prompt):
     try:
@@ -42,6 +42,14 @@ def socratic_steering_step():
     
     # Handle conversation flow
     step = st.session_state.step
+    
+    # If it's the first step, introduce the problem
+    if step == 0:
+        st.write("Let's start with a problem! A streetlight is 10 meters away from a person.")
+        st.write("The person's shadow is 4.2 meters long. If the person is 2.1 meters tall, what is the height of the streetlight?")
+        st.write("Now, let's begin with the first question.")
+
+    # Ask Socratic questions based on the current step
     if step < len(steps):
         st.write(steps[step]["question"])
         user_input = st.text_area("Your answer:", height=150)  # Use text_area for multi-line input
@@ -69,3 +77,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+
