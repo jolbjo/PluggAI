@@ -4,7 +4,7 @@ import openai
 st.title("📘 AI Math 2b Tutor 🇸🇪")
 
 # Set your API key
-openai.api_key = st.secrets["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"]
+openai.api_key = st.secrets["openai"]["api_key"]
 
 def ask_openai(prompt):
     try:
