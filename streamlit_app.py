@@ -7,13 +7,17 @@ st.title("📘 AI Math 2b Tutor 🇸🇪")
 openai.api_key = st.secrets["OPENAI_API_KEY"]
 
 def ask_openai(prompt):
-    response = openai.Completion.create(
-        engine="text-davinci-003",  # Or another engine like "gpt-4", depending on your plan
-        prompt=prompt,
-        max_tokens=150,
-        temperature=0.7,  # Controls randomness in the output; lower = more focused
-    )
-    return response.choices[0].text.strip()
+    try:
+        response = openai.Completion.create(
+            engine="text-davinci-003",  # Or another engine like "gpt-4", depending on your plan
+            prompt=prompt,
+            max_tokens=150,
+            temperature=0.7,  # Controls randomness in the output; lower = more focused
+        )
+        return response.choices[0].text.strip()
+    except Exception as e:
+        st.error(f"Error: {e}")
+        return "Sorry, there was an error processing your request."
 
 # Function to handle Socratic steering
 def socratic_steering_step():
@@ -40,7 +44,7 @@ def socratic_steering_step():
     step = st.session_state.step
     if step < len(steps):
         st.write(steps[step]["question"])
-        user_input = st.text_input("Your answer:")
+        user_input = st.text_area("Your answer:", height=150)  # Use text_area for multi-line input
         
         if user_input:
             # Call OpenAI's ask_openai to get a hint or guidance based on the user input
@@ -60,12 +64,6 @@ def socratic_steering_step():
 
 # Streamlit App
 def main():
-    st.title("Socratic Steering Math Tutor")
-
-    # Initialize session state if needed
-    if "step" not in st.session_state:
-        st.session_state.step = 0
-
     # Start the Socratic steering process
     socratic_steering_step()
 
